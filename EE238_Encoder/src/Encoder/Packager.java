@@ -7,6 +7,7 @@ import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
 
+import Common.Configuration;
 import Common.Packet;
 
 public class Packager {
@@ -39,11 +40,13 @@ public class Packager {
 	public void sendFile() throws IOException, InterruptedException {
 		for (Packet p : _packets) {
 			_datagramPacket = new DatagramPacket(p.getPacket(),
-					p.getPacketSize(), InetAddress.getLocalHost(),
+					p.getPacketSize(),
+					InetAddress.getByAddress(Configuration.INSTANCE
+							.getDecoderAddr()),
 					Common.Configuration.INSTANCE.getPort());
 
 			_datagramSocket.send(_datagramPacket);
-			
+
 			Thread.sleep(Common.Configuration.INSTANCE.getSleepTime());
 		}
 	}

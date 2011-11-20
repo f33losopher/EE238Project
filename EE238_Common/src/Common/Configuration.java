@@ -14,11 +14,11 @@ public enum Configuration {
 
 	// Max buffer size in packets
 	private final int _maxBufferSize = 100;
-	
+
 	// The upper threshold of the buffer where we want to speed up the
 	// output rate to prevent buffer overflow;
-	private final int _upperThreshold =(int) (_maxBufferSize * .08);
-	
+	private final int _upperThreshold = (int) (_maxBufferSize * .08);
+
 	// The lower threshold of the buffer where we want to decrease the
 	// output rate to prevent buffer underflow
 	private final int _lowerThreshold = (int) (_maxBufferSize * .02);
@@ -28,7 +28,7 @@ public enum Configuration {
 
 	// The sleep rate to meter how many packets we send/read per millisecond
 	private final long _sleepTime = (1000 / _packetRate);
-	
+
 	// The Attenuation factor to increase/decrease the output rate
 	private final double _attenuationFactor = 0.02;
 
@@ -37,6 +37,10 @@ public enum Configuration {
 
 	// Socket Read Timeout in milliseconds
 	private final int _socketTimeout = 5000;
+
+	// IP Address of the decoder
+	private final byte[] _decoderAddr = { (byte) 0xC0, (byte) 0xA8, (byte) 0x1,
+			(byte) 0x64 };
 
 	/**
 	 * Returns the name of the Input File
@@ -73,27 +77,27 @@ public enum Configuration {
 	public int getMaxBufferSize() {
 		return _maxBufferSize;
 	}
-	
+
 	/**
-	 * Returns the upper threshold (in packets) where we want to 
-	 * speed up the output rate to prevent buffer overflow
+	 * Returns the upper threshold (in packets) where we want to speed up the
+	 * output rate to prevent buffer overflow
+	 * 
 	 * @return
 	 */
-	public int getUpperThreshold()
-	{
+	public int getUpperThreshold() {
 		return _upperThreshold;
 	}
 
 	/**
-	 * Returns the lower threshold (in packets) where we want to
-	 * decrease the output rate to prevent buffer underflow
+	 * Returns the lower threshold (in packets) where we want to decrease the
+	 * output rate to prevent buffer underflow
+	 * 
 	 * @return
 	 */
-	public int getLowerThreshold()
-	{
+	public int getLowerThreshold() {
 		return _lowerThreshold;
 	}
-	
+
 	/**
 	 * Returns the rate packets are sent (Packets/Second)
 	 * 
@@ -115,13 +119,13 @@ public enum Configuration {
 
 	/**
 	 * The Attenuation factor to increase/decrease the output rate
+	 * 
 	 * @return
 	 */
-	public double getAttenuationFactor()
-	{
+	public double getAttenuationFactor() {
 		return _attenuationFactor;
 	}
-	
+
 	/**
 	 * Returns the port to send/receive packets
 	 * 
@@ -138,5 +142,14 @@ public enum Configuration {
 	 */
 	public int getSocketTimeout() {
 		return _socketTimeout;
+	}
+	
+	/**
+	 * Returns the Decoder address in a byte array
+	 * @return
+	 */
+	public byte[] getDecoderAddr()
+	{
+		return _decoderAddr;
 	}
 }
