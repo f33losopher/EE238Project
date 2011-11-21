@@ -26,14 +26,16 @@ public enum Configuration {
 	// The rate (In Packets/Second) to send
 	private final int _packetRate = 300;
 
+	// Conversion from Seconds to Milliseconds
 	private final int SEC_TO_MILLISEC = 1000;
+	
 	// The sleep rate to meter how many packets the encoder sends per millisecond
 	// and nanosecond
-	private SleepTime _encoderSleepTime = new SleepTime(SEC_TO_MILLISEC/_packetRate, 0);
+	private SleepTime _encoderSleepTime = new SleepTime((double)_packetRate);
 	
 	// The sleep rate to meter how many packets the decoder sends per millisecond
 	// and nanosecond
-	private SleepTime _decoderSleepTime = new SleepTime(SEC_TO_MILLISEC/_packetRate, 0);
+	private SleepTime _decoderSleepTime = new SleepTime((double)_packetRate);
 
 	// The Attenuation factor to increase/decrease the output rate
 	private final double _attenuationFactor = 0.05;
@@ -111,6 +113,15 @@ public enum Configuration {
 	 */
 	public int getPacketRate() {
 		return _packetRate;
+	}
+	
+	/**
+	 * Returns conversion factor from Seconds to Milliseconds
+	 * @return
+	 */
+	public int getSec2Millisec()
+	{
+		return SEC_TO_MILLISEC;
 	}
 
 	/**

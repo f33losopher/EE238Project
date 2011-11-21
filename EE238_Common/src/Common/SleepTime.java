@@ -9,7 +9,20 @@ public class SleepTime {
 		_millisec = m;
 		_nanosec = n;
 	}
+	
+	public SleepTime(double dataRate)
+	{
+		setSleepTime(dataRate);
+	}
 
+	public void setSleepTime(double dataRate)
+	{
+		double sleepTimeMilliSec = 1000 / dataRate;
+		_millisec = (long) sleepTimeMilliSec;
+		double sleepTimeNanoSec = (sleepTimeMilliSec - (double) _millisec) * 1000000;
+		_nanosec = (int) sleepTimeNanoSec;	
+	}
+	
 	public void setMilliSec(long m) {
 		_millisec = m;
 	}
