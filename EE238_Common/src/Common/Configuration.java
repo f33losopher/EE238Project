@@ -10,7 +10,7 @@ public enum Configuration {
 	private final String _outputFile = "src/Outputs/Silent_Transmitted.cif";
 
 	// Size (In Bytes) of each packet to send to network
-	private final int _packetSize = 512;
+	private final int _packetSize = 256;
 
 	// Max buffer size in packets
 	private final int _maxBufferSize = 1000;
@@ -24,7 +24,7 @@ public enum Configuration {
 	private final int _lowerThreshold = (int) (_maxBufferSize * .2);
 
 	// The rate (In Packets/Second) to send
-	private final int _packetRate = 500;
+	private final int _packetRate = 300;
 
 	private final int SEC_TO_MILLISEC = 1000;
 	// The sleep rate to meter how many packets the encoder sends per millisecond
@@ -36,7 +36,7 @@ public enum Configuration {
 	private SleepTime _decoderSleepTime = new SleepTime(SEC_TO_MILLISEC/_packetRate, 0);
 
 	// The Attenuation factor to increase/decrease the output rate
-	private final double _attenuationFactor = 0.15;
+	private final double _attenuationFactor = 0.05;
 
 	// The port to send/receive packets
 	private final int _port = 62000;
