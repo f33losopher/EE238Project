@@ -9,7 +9,6 @@ public class MarkovStateNormal extends AbstractMarkovState {
 	 */
 	@Override
 	public void updateSleepTime() {
-		Configuration.INSTANCE.getDecoderSleepTime().setSleepTime(
-				Configuration.INSTANCE.getPacketRate());
+		super.updateSleepTime(Configuration.INSTANCE.getPacketRate());
 	}
 }
