@@ -13,24 +13,30 @@ public enum Configuration {
 	private final int _packetSize = 512;
 
 	// Max buffer size in packets
-	private final int _maxBufferSize = 100;
+	private final int _maxBufferSize = 1000;
 
 	// The upper threshold of the buffer where we want to speed up the
 	// output rate to prevent buffer overflow;
-	private final int _upperThreshold = (int) (_maxBufferSize * .08);
+	private final int _upperThreshold = (int) (_maxBufferSize * .8);
 
 	// The lower threshold of the buffer where we want to decrease the
 	// output rate to prevent buffer underflow
-	private final int _lowerThreshold = (int) (_maxBufferSize * .02);
+	private final int _lowerThreshold = (int) (_maxBufferSize * .2);
 
 	// The rate (In Packets/Second) to send
-	private final int _packetRate = 100;
+	private final int _packetRate = 500;
 
-	// The sleep rate to meter how many packets we send/read per millisecond
-	private final long _sleepTime = (1000 / _packetRate);
+	private final int SEC_TO_MILLISEC = 1000;
+	// The sleep rate to meter how many packets the encoder sends per millisecond
+	// and nanosecond
+	private SleepTime _encoderSleepTime = new SleepTime(SEC_TO_MILLISEC/_packetRate, 0);
+	
+	// The sleep rate to meter how many packets the decoder sends per millisecond
+	// and nanosecond
+	private SleepTime _decoderSleepTime = new SleepTime(SEC_TO_MILLISEC/_packetRate, 0);
 
 	// The Attenuation factor to increase/decrease the output rate
-	private final double _attenuationFactor = 0.02;
+	private final double _attenuationFactor = 0.15;
 
 	// The port to send/receive packets
 	private final int _port = 62000;
@@ -108,15 +114,22 @@ public enum Configuration {
 	}
 
 	/**
-	 * Returns the sleep time for sending each packet to ensure we match the
-	 * packet rate
+	 * Returns the sleep time for the encoder
 	 * 
 	 * @return
 	 */
-	public long getSleepTime() {
-		return _sleepTime;
+	public SleepTime getEncoderSleepTime() {
+		return _encoderSleepTime;
 	}
 
+	/**
+	 * Returns the sleep time for the decoder
+	 * @return
+	 */
+	public SleepTime getDecoderSleepTime() {
+		return _decoderSleepTime;
+	}
+	
 	/**
 	 * The Attenuation factor to increase/decrease the output rate
 	 * 

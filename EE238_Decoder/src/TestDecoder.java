@@ -1,6 +1,7 @@
 import java.io.FileNotFoundException;
 import java.net.SocketException;
 
+import Common.Configuration;
 import Decoder.Decoder;
 import Decoder.DecoderBuffer;
 
@@ -14,12 +15,6 @@ public class TestDecoder {
 		try {
 			Decoder decoder = new Decoder();
 			System.out.println("Made decoder");
-			
-			while(true)
-			{
-				System.out.println("Buffer: " + DecoderBuffer.INSTANCE.getBufferSize());
-				Thread.sleep(1000);
-			}
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

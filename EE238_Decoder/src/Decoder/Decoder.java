@@ -7,12 +7,15 @@ import java.net.SocketException;
 
 import Common.Configuration;
 import Common.Packet;
+import Common.SleepTime;
+import MarkovState.IMarkovState;
+import MarkovState.MarkovStateFactory;
 
 public class Decoder extends Thread {
 	private SocketReader _socketReader;
 	private boolean _continueDecode = true;
 	private FileOutputStream _outFile;
-	private long _sleepTime;
+	private MarkovStateFactory _markovFactory = MarkovStateFactory.INSTANCE;
 
 
 	public Decoder() throws SocketException, InterruptedException,
@@ -20,7 +23,6 @@ public class Decoder extends Thread {
 		super("Decoder");
 		_socketReader = new SocketReader();
 		_outFile = new FileOutputStream(Configuration.INSTANCE.getOutputFile());
-		_sleepTime = Configuration.INSTANCE.getSleepTime();
 		start();
 	}
 
@@ -51,9 +53,11 @@ public class Decoder extends Thread {
 		Packet p;
 		while (_continueDecode) {
 			p = DecoderBuffer.INSTANCE.popPacket();
-			simulateDisplay(p);
-			attenuateOutputRate();
-			Thread.sleep(_sleepTime);
+			simulateDisplay(p); 
+			_markovFactory.getMarkovState().updateSleepTime();
+			
+			Thread.sleep(Configuration.INSTANCE.getDecoderSleepTime().getMilliSec(),
+					Configuration.INSTANCE.getDecoderSleepTime().getNanoSec());
 
 			if (DecoderBuffer.INSTANCE.getBufferSize() <= 0) {
 				// This accounts for buffer underflow. Must go through
@@ -61,10 +65,6 @@ public class Decoder extends Thread {
 				return;
 			}
 		}
-	}
-
-	public void attenuateOutputRate() {	
-		_sleepTime = RateAttenuator.updateSleepTime();
 	}
 
 	// Simulate the decoder playing, but actually just writing the bytes
