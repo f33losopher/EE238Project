@@ -39,15 +39,11 @@ public class Packager {
 
 	public void sendFile() throws IOException, InterruptedException {
 		for (Packet p : _packets) {
-//			_datagramPacket = new DatagramPacket(p.getPacket(),
-//					p.getPacketSize(),
-//					InetAddress.getByAddress(Configuration.INSTANCE
-//							.getDecoderAddr()),
-//					Common.Configuration.INSTANCE.getPort());
 			_datagramPacket = new DatagramPacket(p.getPacket(),
-			p.getPacketSize(),
-			InetAddress.getLocalHost(),
-			Common.Configuration.INSTANCE.getPort());
+					p.getPacketSize(),
+					InetAddress.getByAddress(Configuration.INSTANCE
+							.getDecoderAddr()),
+					Common.Configuration.INSTANCE.getPort());
 
 			_datagramSocket.send(_datagramPacket);
 
