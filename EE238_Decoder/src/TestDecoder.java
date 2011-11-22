@@ -5,7 +5,13 @@ import Common.Configuration;
 import Decoder.Decoder;
 import Decoder.DecoderBuffer;
 
-
+/**
+ * Creates an instance of the decoder to wait and listen for packets on a port.
+ * Prints out the size of the internal buffer 10 times per second.
+ * 
+ * @author Felix
+ * 
+ */
 public class TestDecoder {
 
 	/**
@@ -15,9 +21,16 @@ public class TestDecoder {
 		try {
 			Decoder decoder = new Decoder();
 			System.out.println("Made decoder");
-			
+
 			while (true) {
-				System.out.println("Buffer Size: " + DecoderBuffer.INSTANCE.getBufferSize());
+				System.out.print("Buffer Size: "
+						+ DecoderBuffer.INSTANCE.getBufferSize() + " ");
+				System.out.println("Milli: "
+						+ Configuration.INSTANCE.getDecoderSleepTime()
+								.getMilliSec()
+						+ " Nano: "
+						+ Configuration.INSTANCE.getDecoderSleepTime()
+								.getNanoSec());
 				Thread.sleep(100);
 			}
 		} catch (SocketException e) {

@@ -9,6 +9,12 @@ import Common.Configuration;
 import Common.Packet;
 import MarkovState.MarkovStateFactory;
 
+/**
+ * Decoder is a separate thread that continuously decodes data stored in
+ * it's internal buffer.
+ * @author Felix
+ *
+ */
 public class Decoder extends Thread {
 	private SocketReader _socketReader;
 	private boolean _continueDecode = true;
@@ -19,14 +25,14 @@ public class Decoder extends Thread {
 	public Decoder() throws SocketException, InterruptedException,
 			FileNotFoundException {
 		super("Decoder");
-		_socketReader = new SocketReader();
-		_outFile = new FileOutputStream(Configuration.INSTANCE.getOutputFile());
+		this._socketReader = new SocketReader();
+		this._outFile = new FileOutputStream(Configuration.INSTANCE.getOutputFile());
 		start();
 	}
 
 	public void run() {
 		try {
-			while (_continueDecode) {
+			while (this._continueDecode) {
 				decode();
 			}
 		} catch (InterruptedException e) {
@@ -49,10 +55,10 @@ public class Decoder extends Thread {
 
 	public void readBuffer() throws InterruptedException, IOException {
 		Packet p;
-		while (_continueDecode) {
+		while (this._continueDecode) {
 			p = DecoderBuffer.INSTANCE.popPacket();
 			simulateDisplay(p); 
-			_markovFactory.getMarkovState().updateSleepTime();
+			this._markovFactory.getMarkovState().updateSleepTime();
 			
 			Thread.sleep(Configuration.INSTANCE.getDecoderSleepTime().getMilliSec(),
 					Configuration.INSTANCE.getDecoderSleepTime().getNanoSec());
@@ -69,10 +75,10 @@ public class Decoder extends Thread {
 	// to file. This is so we can play the video with the player as well
 	// as run lencod.exe on the file to analyze the data.
 	public void simulateDisplay(Packet p) throws IOException {
-		_outFile.write(p.getPacket());
+		this._outFile.write(p.getPacket());
 	}
 
 	public void stopDecoder() {
-		_continueDecode = false;
+		this._continueDecode = false;
 	}
 }

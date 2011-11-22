@@ -4,11 +4,16 @@ import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
-import java.net.SocketTimeoutException;
 
 import Common.Configuration;
 import Common.Packet;
 
+/**
+ * SocketReader is a separate thread that listens to a port and reads
+ * data as it arrives. Immediately sends the data to the DecoderBuffer.
+ * @author Felix
+ *
+ */
 public class SocketReader extends Thread {
 	boolean _readSocket;
 	DatagramSocket _datagramSocket;
@@ -17,28 +22,32 @@ public class SocketReader extends Thread {
 
 	public SocketReader() throws SocketException {
 		super("SocketReader");
-		_readSocket = true;
+		this._readSocket = true;
 
-		_datagramSocket = new DatagramSocket(Configuration.INSTANCE.getPort());
-		_datagramSocket.setSoTimeout(Configuration.INSTANCE.getSocketTimeout());
-		_readBuffer = new byte[Configuration.INSTANCE.getPacketSize()];
-		_datagramPacket = new DatagramPacket(_readBuffer, _readBuffer.length);
+		this._datagramSocket = new DatagramSocket(Configuration.INSTANCE.getPort());
+		this._datagramSocket.setSoTimeout(Configuration.INSTANCE.getSocketTimeout());
+		this._readBuffer = new byte[Configuration.INSTANCE.getPacketSize()];
+		this._datagramPacket = new DatagramPacket(this._readBuffer, this._readBuffer.length);
 		start();
 	}
 
+	/**
+	 * Continually reads any data that arrives at the socket.
+	 */
 	public void run() {
-		while (_readSocket) {
+		while (this._readSocket) {
 			try {
-				_datagramSocket.receive(_datagramPacket);
-				Packet p = new Packet(_readBuffer, 0);
+				this._datagramSocket.receive(this._datagramPacket);
+				Packet p = new Packet(this._readBuffer, 0);
 				DecoderBuffer.INSTANCE.addPacket(p);
 
 			} catch (IOException e) {
+				// Timeout, let the socket try to re-read
 			}
 		}
 	}
 
 	public void stopReadSocket() {
-		_readSocket = false;
+		this._readSocket = false;
 	}
 }

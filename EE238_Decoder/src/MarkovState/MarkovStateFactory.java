@@ -3,6 +3,11 @@ package MarkovState;
 import Common.Configuration;
 import Decoder.DecoderBuffer;
 
+/**
+ * Factory Object to get the current Markov State
+ * @author Felix
+ *
+ */
 public enum MarkovStateFactory {
 	INSTANCE;
 
@@ -18,48 +23,51 @@ public enum MarkovStateFactory {
 	private final MarkovStateHigh _markovStateHigh = new MarkovStateHigh();
 	private final MarkovStateLow _markovStateLow = new MarkovStateLow();
 	private final MarkovStateNormal _markovStateNormal = new MarkovStateNormal();
-	private IMarkovState _prevState = _markovStateNormal;
+	private IMarkovState _prevState = this._markovStateNormal;
 	private ACTION _action = ACTION.NORMAL;
 
 	public IMarkovState getMarkovState() {
 		int bufferSize = DecoderBuffer.INSTANCE.getBufferSize();
+		IMarkovState currentState;
 
 		// If everything is normal, check to see if we need to transition
 		// into another action state.
-		if (_action == ACTION.NORMAL) {
+		if (this._action == ACTION.NORMAL) {
 			if (bufferSize > Configuration.INSTANCE.getUpperThreshold()) {
-				_prevState = _markovStateHigh;
-				_action = ACTION.RECOVER;
-				return _markovStateHigh;
+				this._prevState = this._markovStateHigh;
+				this._action = ACTION.RECOVER;
+				currentState = this._markovStateHigh;
 			} else if (bufferSize < Configuration.INSTANCE.getLowerThreshold()) {
-				_prevState = _markovStateLow;
-				_action = ACTION.RECOVER;
-				return _markovStateLow;
+				this._prevState = this._markovStateLow;
+				this._action = ACTION.RECOVER;
+				currentState = this._markovStateLow;
 			} else {
-				_prevState = _markovStateNormal;
-				_action = ACTION.NORMAL;
-				return _markovStateNormal;
+				this._prevState = this._markovStateNormal;
+				this._action = ACTION.NORMAL;
+				currentState = this._markovStateNormal;
 			}
 		} else {
 			// In Recovery mode, so we want to get back near the ideal
 			// buffer size.
-			if (_prevState == _markovStateHigh) {
+			if (this._prevState == this._markovStateHigh) {
 				if (bufferSize < (_idealBuffer + _idealBufferMargin)) {
-					_prevState = _markovStateNormal;
-					_action = ACTION.NORMAL;
-					return _markovStateNormal;
+					this._prevState = this._markovStateNormal;
+					this._action = ACTION.NORMAL;
+					currentState = this._markovStateNormal;
 				} else {
-					return _markovStateHigh;
+					currentState = this._markovStateHigh;
 				}
 			} else {
 				if (bufferSize > (_idealBuffer - _idealBufferMargin)) {
-					_prevState = _markovStateNormal;
-					_action = ACTION.NORMAL;
-					return _markovStateNormal;
+					this._prevState = this._markovStateNormal;
+					this._action = ACTION.NORMAL;
+					currentState = this._markovStateNormal;
 				} else {	
-					return _markovStateLow;
+					currentState = this._markovStateLow;
 				}
 			}
 		}
+		
+		return currentState;
 	}
 }

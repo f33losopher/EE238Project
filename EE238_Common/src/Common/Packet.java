@@ -1,22 +1,28 @@
 package Common;
 
+/**
+ * A single packet of data contains the raw byte sequence of data as well
+ * as the accessor to the data.
+ * @author Felix
+ *
+ */
 public class Packet {
 	private byte[] _packet;
 	
 	public Packet(byte[] b, int begin)
 	{
 		int packetSize = Common.Configuration.INSTANCE.getPacketSize();
-		_packet = new byte[packetSize];
-		System.arraycopy(b, begin, _packet, 0, packetSize);
+		this._packet = new byte[packetSize];
+		System.arraycopy(b, begin, this._packet, 0, packetSize);
 	}
 	
 	public byte[] getPacket()
 	{
-		return _packet;
+		return this._packet;
 	}
 	
 	public int getPacketSize()
 	{
-		return _packet.length;
+		return this._packet.length;
 	}
 }

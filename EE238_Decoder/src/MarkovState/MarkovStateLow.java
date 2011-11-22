@@ -18,7 +18,7 @@ public class MarkovStateLow extends AbstractMarkovState {
 		// Same as Rate - (Rate * Attenuation Factor)
 		double slowedRate = (1 - Configuration.INSTANCE.getAttenuationFactor())
 				* Configuration.INSTANCE.getPacketRate();
-		
+
 		super.updateSleepTime(slowedRate);
 	}
 }

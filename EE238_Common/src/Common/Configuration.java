@@ -1,5 +1,11 @@
 package Common;
 
+/**
+ * Contains the configuration parameters for the Encoder/Decoder. This is a singleton
+ * class.
+ * @author Felix
+ *
+ */
 public enum Configuration {
 	INSTANCE;
 
@@ -17,11 +23,11 @@ public enum Configuration {
 
 	// The upper threshold of the buffer where we want to speed up the
 	// output rate to prevent buffer overflow;
-	private final int _upperThreshold = (int) (_maxBufferSize * .8);
+	private final int _upperThreshold = (int) (this._maxBufferSize * .8);
 
 	// The lower threshold of the buffer where we want to decrease the
 	// output rate to prevent buffer underflow
-	private final int _lowerThreshold = (int) (_maxBufferSize * .2);
+	private final int _lowerThreshold = (int) (this._maxBufferSize * .2);
 
 	// The rate (In Packets/Second) to send
 	private final int _packetRate = 300;
@@ -31,11 +37,11 @@ public enum Configuration {
 	
 	// The sleep rate to meter how many packets the encoder sends per millisecond
 	// and nanosecond
-	private SleepTime _encoderSleepTime = new SleepTime((double)_packetRate);
+	private SleepTime _encoderSleepTime = new SleepTime(this._packetRate);
 	
 	// The sleep rate to meter how many packets the decoder sends per millisecond
 	// and nanosecond
-	private SleepTime _decoderSleepTime = new SleepTime((double)_packetRate);
+	private SleepTime _decoderSleepTime = new SleepTime(this._packetRate);
 
 	// The Attenuation factor to increase/decrease the output rate
 	private final double _attenuationFactor = 0.05;
@@ -56,7 +62,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public String getInputFile() {
-		return _inputFile;
+		return this._inputFile;
 	}
 
 	/**
@@ -65,7 +71,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public String getOutputFile() {
-		return _outputFile;
+		return this._outputFile;
 	}
 
 	/**
@@ -74,7 +80,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getPacketSize() {
-		return _packetSize;
+		return this._packetSize;
 	}
 
 	/**
@@ -83,7 +89,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getMaxBufferSize() {
-		return _maxBufferSize;
+		return this._maxBufferSize;
 	}
 
 	/**
@@ -93,7 +99,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getUpperThreshold() {
-		return _upperThreshold;
+		return this._upperThreshold;
 	}
 
 	/**
@@ -103,7 +109,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getLowerThreshold() {
-		return _lowerThreshold;
+		return this._lowerThreshold;
 	}
 
 	/**
@@ -112,7 +118,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getPacketRate() {
-		return _packetRate;
+		return this._packetRate;
 	}
 	
 	/**
@@ -121,7 +127,7 @@ public enum Configuration {
 	 */
 	public int getSec2Millisec()
 	{
-		return SEC_TO_MILLISEC;
+		return this.SEC_TO_MILLISEC;
 	}
 
 	/**
@@ -130,7 +136,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public SleepTime getEncoderSleepTime() {
-		return _encoderSleepTime;
+		return this._encoderSleepTime;
 	}
 
 	/**
@@ -138,7 +144,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public SleepTime getDecoderSleepTime() {
-		return _decoderSleepTime;
+		return this._decoderSleepTime;
 	}
 	
 	/**
@@ -147,7 +153,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public double getAttenuationFactor() {
-		return _attenuationFactor;
+		return this._attenuationFactor;
 	}
 
 	/**
@@ -156,7 +162,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getPort() {
-		return _port;
+		return this._port;
 	}
 
 	/**
@@ -165,7 +171,7 @@ public enum Configuration {
 	 * @return
 	 */
 	public int getSocketTimeout() {
-		return _socketTimeout;
+		return this._socketTimeout;
 	}
 	
 	/**
@@ -174,6 +180,6 @@ public enum Configuration {
 	 */
 	public byte[] getDecoderAddr()
 	{
-		return _decoderAddr;
+		return this._decoderAddr;
 	}
 }

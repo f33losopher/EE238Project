@@ -2,6 +2,11 @@ package MarkovState;
 
 import Common.Configuration;
 
+/**
+ * Buffer is in the NORMAL state. Maintain the default output rate.
+ * @author Felix
+ *
+ */
 public class MarkovStateNormal extends AbstractMarkovState {
 
 	/**
