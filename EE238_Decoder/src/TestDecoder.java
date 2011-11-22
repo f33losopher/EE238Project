@@ -15,6 +15,11 @@ public class TestDecoder {
 		try {
 			Decoder decoder = new Decoder();
 			System.out.println("Made decoder");
+			
+			while (true) {
+				System.out.println("Buffer Size: " + DecoderBuffer.INSTANCE.getBufferSize());
+				Thread.sleep(100);
+			}
 		} catch (SocketException e) {
 			e.printStackTrace();
 		} catch (InterruptedException e) {

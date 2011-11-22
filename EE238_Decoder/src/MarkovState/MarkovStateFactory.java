@@ -24,32 +24,18 @@ public enum MarkovStateFactory {
 	public IMarkovState getMarkovState() {
 		int bufferSize = DecoderBuffer.INSTANCE.getBufferSize();
 
-		System.out.print("Buffer size: " + bufferSize + " ");
-		System.out.print("Sleep milli: "
-				+ Configuration.INSTANCE.getDecoderSleepTime().getMilliSec()
-				+ " ");
-		System.out.print("nano: "
-				+ Configuration.INSTANCE.getDecoderSleepTime().getNanoSec()
-				+ " ");
-
 		// If everything is normal, check to see if we need to transition
 		// into another action state.
 		if (_action == ACTION.NORMAL) {
 			if (bufferSize > Configuration.INSTANCE.getUpperThreshold()) {
-				System.out.println("HIGH");
-
 				_prevState = _markovStateHigh;
 				_action = ACTION.RECOVER;
 				return _markovStateHigh;
 			} else if (bufferSize < Configuration.INSTANCE.getLowerThreshold()) {
-				System.out.println("LOW");
-
 				_prevState = _markovStateLow;
 				_action = ACTION.RECOVER;
 				return _markovStateLow;
 			} else {
-				System.out.println("NORMAL");
-
 				_prevState = _markovStateNormal;
 				_action = ACTION.NORMAL;
 				return _markovStateNormal;
@@ -59,26 +45,18 @@ public enum MarkovStateFactory {
 			// buffer size.
 			if (_prevState == _markovStateHigh) {
 				if (bufferSize < (_idealBuffer + _idealBufferMargin)) {
-					System.out.println("BACK TO NORMAL");
-					
 					_prevState = _markovStateNormal;
 					_action = ACTION.NORMAL;
 					return _markovStateNormal;
 				} else {
-					System.out.println("HIGH");
-					
 					return _markovStateHigh;
 				}
 			} else {
 				if (bufferSize > (_idealBuffer - _idealBufferMargin)) {
-					System.out.println("BACK TO NORMAL");
-					
 					_prevState = _markovStateNormal;
 					_action = ACTION.NORMAL;
 					return _markovStateNormal;
-				} else {
-					System.out.println("LOW");
-					
+				} else {	
 					return _markovStateLow;
 				}
 			}
