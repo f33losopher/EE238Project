@@ -66,7 +66,7 @@ public enum Configuration {
 	private SleepTime _encoderSleepTime = new SleepTime(this._packetRate);	
 	
 	// The Attenuation factor to increase/decrease the output rate
-	private final double _attenuationFactor = 0.05;
+	private final double _attenuationFactor = 0.02;
 	
 	//////////////// END /////////////////////
 	//////////////////////////////////////////
