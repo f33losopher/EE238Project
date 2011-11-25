@@ -28,7 +28,7 @@ public enum Configuration {
 	private final int _lowerThreshold = (int) (this._maxBufferSize * .2);
 
 	// The rate (In Packets/Second) to send
-	private final int _packetRate = 300;
+	private final int _packetRate = 400;
 
 	// Conversion from Seconds to Milliseconds
 	private final int SEC_TO_MILLISEC = 1000;
@@ -63,7 +63,7 @@ public enum Configuration {
 	// The sleep rate to meter how many packets the encoder sends per
 	// millisecond
 	// and nanosecond
-	private SleepTime _encoderSleepTime = new SleepTime(this._packetRate);	
+	private SleepTime _encoderSleepTime = new SleepTime(this._packetRate * 1.00000000000000011);	
 	
 	// The Attenuation factor to increase/decrease the output rate
 	private final double _attenuationFactor = 0.02;

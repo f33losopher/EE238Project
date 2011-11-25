@@ -16,7 +16,7 @@ public class MarkovStateLow extends AbstractMarkovState {
 	@Override
 	public void updateSleepTime() {
 		// Same as Rate - (Rate * Attenuation Factor)
-		double slowedRate = (1 - Configuration.INSTANCE.getAttenuationFactor())
+		double slowedRate = (1.0 - Configuration.INSTANCE.getAttenuationFactor())
 				* Configuration.INSTANCE.getPacketRate();
 
 		super.updateSleepTime(slowedRate);
