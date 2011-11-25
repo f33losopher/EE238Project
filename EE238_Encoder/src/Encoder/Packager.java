@@ -54,7 +54,7 @@ public class Packager {
 					Common.Configuration.INSTANCE.getPort());
 
 			this._datagramSocket.send(this._datagramPacket);
-
+	
 			Thread.sleep(Configuration.INSTANCE.getEncoderSleepTime().getMilliSec(),
 					Configuration.INSTANCE.getEncoderSleepTime().getNanoSec());
 		}

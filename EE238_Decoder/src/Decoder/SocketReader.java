@@ -7,6 +7,7 @@ import java.net.SocketException;
 
 import Common.Configuration;
 import Common.Packet;
+import Log.Logger;
 
 /**
  * SocketReader is a separate thread that listens to a port and reads
@@ -42,7 +43,14 @@ public class SocketReader extends Thread {
 				DecoderBuffer.INSTANCE.addPacket(p);
 
 			} catch (IOException e) {
-				// Timeout, let the socket try to re-read
+				// Exceptionally Long Timeout. End of transmission.
+				// Write the statistics
+				try {
+					Logger.getLogger().logStatistics();
+					System.exit(0);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
 			}
 		}
 	}

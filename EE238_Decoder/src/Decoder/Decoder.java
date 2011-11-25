@@ -7,26 +7,31 @@ import java.net.SocketException;
 
 import Common.Configuration;
 import Common.Packet;
+import Log.Logger;
 import MarkovState.MarkovStateFactory;
 
 /**
- * Decoder is a separate thread that continuously decodes data stored in
- * it's internal buffer.
+ * Decoder is a separate thread that continuously decodes data stored in it's
+ * internal buffer.
+ * 
  * @author Felix
- *
+ * 
  */
 public class Decoder extends Thread {
 	private SocketReader _socketReader;
 	private boolean _continueDecode = true;
 	private FileOutputStream _outFile;
 	private MarkovStateFactory _markovFactory = MarkovStateFactory.INSTANCE;
-
+	private long _bufferUnderflow = 0;
+	private Logger _logger;
 
 	public Decoder() throws SocketException, InterruptedException,
 			FileNotFoundException {
 		super("Decoder");
 		this._socketReader = new SocketReader();
-		this._outFile = new FileOutputStream(Configuration.INSTANCE.getOutputFile());
+		this._outFile = new FileOutputStream(
+				Configuration.INSTANCE.getOutputFile());
+		this._logger = Logger.Instance(this);
 		start();
 	}
 
@@ -57,15 +62,20 @@ public class Decoder extends Thread {
 		Packet p;
 		while (this._continueDecode) {
 			p = DecoderBuffer.INSTANCE.popPacket();
-			simulateDisplay(p); 
+			simulateDisplay(p);
 			this._markovFactory.getMarkovState().updateSleepTime();
 			
-			Thread.sleep(Configuration.INSTANCE.getDecoderSleepTime().getMilliSec(),
-					Configuration.INSTANCE.getDecoderSleepTime().getNanoSec());
+			this._logger.logBufferAndDelay();
+
+			Thread.sleep(Configuration.INSTANCE.getDecoderSleepTime()
+					.getMilliSec(), Configuration.INSTANCE
+					.getDecoderSleepTime().getNanoSec());
 
 			if (DecoderBuffer.INSTANCE.getBufferSize() <= 0) {
 				// This accounts for buffer underflow. Must go through
 				// the pre-roll delay again.
+				++this._bufferUnderflow;
+				this._logger.logBufferUnderFlow();
 				return;
 			}
 		}
@@ -80,5 +90,9 @@ public class Decoder extends Thread {
 
 	public void stopDecoder() {
 		this._continueDecode = false;
+	}
+
+	public long getBufferUnderflow() {
+		return this._bufferUnderflow;
 	}
 }
