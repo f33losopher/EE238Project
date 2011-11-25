@@ -17,7 +17,7 @@ public enum Configuration {
 	private final int _packetSize = 256;
 
 	// Max buffer size in packets
-	private final int _maxBufferSize = 500;
+	private final int _maxBufferSize = 1000;
 
 	// The upper threshold of the buffer where we want to speed up the
 	// output rate to prevent buffer overflow;
