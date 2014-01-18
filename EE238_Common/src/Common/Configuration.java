@@ -11,7 +11,7 @@ public enum Configuration {
 	INSTANCE;
 	
 	// Name of the Input File
-	private final String _inputFile = "src/Inputs/UH_ext304_silent_30Hz_300fs.cif";
+	private final String _inputFile = "EE238_Encoder/src/Inputs/UH_ext304_silent_30Hz_300fs.cif";
 
 	// Size (In Bytes) of each packet to send to network
 	private final int _packetSize = 256;
