@@ -52,13 +52,13 @@ public enum Configuration {
 	// Parameters to change for each trial ///
 	
 	// Name of the Output File
-	private final String _outputFile = "src/Outputs/Silent_Transmitted.cif";
+	private final String _outputFile = "EE238_Decoder/src/Outputs/Silent_Transmitted.cif";
 
 	// Name of the Log File
-	private final String _logFile = "src/Outputs/Log.txt";	
+	private final String _logFile = "EE238_Decoder/src/Outputs/Log.txt";	
 	
 	// Name of the Log File with just the buffer size. Formatted for Excel
-	private final String _logFileExcel = "src/Outputs/Log_Excel.txt";	
+	private final String _logFileExcel = "EE238_Decoder/src/Outputs/Log_Excel.txt";	
 	
 	// The sleep rate to meter how many packets the encoder sends per
 	// millisecond
